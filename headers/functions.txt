@@ -1,0 +1,79 @@
+// String functions (from string.h and strings.h)
+int strcasecmp(const char *s1, const char *s2);
+int strncasecmp(const char *s1, const char *s2, size_t n);
+char *index(const char *s, int c);
+char *rindex(const char *s, int c);
+char *stpcpy(char *dest, const char *src);
+char *strcat(char *dest, const char *src);
+char *strchr(const char *s, int c);
+int strcmp(const char *s1, const char *s2);
+int strcoll(const char *s1, const char *s2);
+char *strcpy(char *dest, const char *src);
+size_t strcspn(const char *s, const char *reject);
+char *strdup(const char *s);
+char *strfry(char *string);
+size_t strlen(const char *s);
+char *strncat(char *dest, const char *src, size_t n);
+int strncmp(const char *s1, const char *s2, size_t n);
+char *strncpy(char *dest, const char *src, size_t n);
+char *strpbrk(const char *s, const char *accept);
+char *strrchr(const char *s, int c);
+char *strsep(char **stringp, const char *delim);
+size_t strspn(const char *s, const char *accept);
+char *strstr(const char *haystack, const char *needle);
+char *strtok(char *s, const char *delim);
+size_t strxfrm(char *dest, const char *src, size_t n);
+
+// Random sample
+void *memchr(const void *str, int c, size_t n);
+int memcmp(const void *str1, const void *str2, size_t n);
+void *memcpy(void *str1, const void *str2, size_t n);
+void *memmove(void *str1, const void *str2, size_t n);
+void *memset(void *str, int c, size_t n);
+void exit(int status);
+
+// System calls
+
+
+// stdio
+void clearerr(FILE *stream);
+int fclose(FILE *stream);
+int feof(FILE *stream);
+int ferror(FILE *stream);
+int fflush(FILE *stream);
+int fgetpos(FILE *stream, fpos_t *pos);
+FILE *fopen(const char *filename, const char *mode);
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+FILE *freopen(const char *filename, const char *mode, FILE *stream);
+int fseek(FILE *stream, long int offset, int whence);
+int fsetpos(FILE *stream, const fpos_t *pos);
+long int ftell(FILE *stream);
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+int remove(const char *filename);
+int rename(const char *old_filename, const char *new_filename);
+void rewind(FILE *stream);
+void setbuf(FILE *stream, char *buffer);
+int setvbuf(FILE *stream, char *buffer, int mode, size_t size);
+FILE *tmpfile(void);
+char *tmpnam(char *str);
+int fprintf(FILE *stream, const char *format, ...);
+int printf(const char *format, ...);
+int sprintf(char *str, const char *format, ...);
+int vfprintf(FILE *stream, const char *format, va_list arg);
+int vprintf(const char *format, va_list arg);
+int vsprintf(char *str, const char *format, va_list arg);
+int fscanf(FILE *stream, const char *format, ...);
+int scanf(const char *format, ...);
+int sscanf(const char *str, const char *format, ...);
+int fgetc(FILE *stream);
+char *fgets(char *str, int n, FILE *stream);
+int fputc(int char, FILE *stream);
+int fputs(const char *str, FILE *stream);
+int getc(FILE *stream);
+int getchar(void);
+char *gets(char *str);
+int putc(int char, FILE *stream);
+int putchar(int char);
+int puts(const char *str);
+int ungetc(int char, FILE *stream);
+void perror(const char *str);
