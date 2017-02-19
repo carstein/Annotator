@@ -9,4 +9,4 @@ annotates all previous instructions pushing function arguments on stack.
 
 
 _Plugin is under development and only linux_x86 stack is implemented for now.
-New stacks will be added later. Bug reports are welcomed._
+New stacks will be added later. Bug reports are welcome._
