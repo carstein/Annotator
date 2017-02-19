@@ -10,7 +10,7 @@
 #  8: <il: store>
 # }
 
-ELEMENT_WIDTH = 4
+WORD_SIZE = 4
 
 class Stack:
   def __init__(self):
@@ -28,7 +28,7 @@ class Stack:
 
   def __shift_stack(self):
     for index in sorted(self.stack, reverse=True):
-      self.stack[index+ELEMENT_WIDTH] = self.stack[index]
+      self.stack[index+WORD_SIZE] = self.stack[index]
 
   def __process_push(self, push_i):
     self.__shift_stack()
