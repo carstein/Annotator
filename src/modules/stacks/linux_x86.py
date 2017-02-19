@@ -1,7 +1,5 @@
 # Virtual Call stack implementation for Linux x86
 
-from binaryninja import *
-
 # Virtual stack is represented as a dictionary
 # It does not store values but last instruction that modified given element
 # We are assuming addressing in form of ESP + X
@@ -12,7 +10,7 @@ from binaryninja import *
 #  8: <il: store>
 # }
 
-BYTE_WIDTH = 4
+ELEMENT_WIDTH = 4
 
 class Stack:
   def __init__(self):
@@ -30,7 +28,7 @@ class Stack:
 
   def __shift_stack(self):
     for index in sorted(self.stack, reverse=True):
-      self.stack[index+BYTE_WIDTH] = self.stack[index]
+      self.stack[index+ELEMENT_WIDTH] = self.stack[index]
 
   def __process_push(self, push_i):
     self.__shift_stack()
