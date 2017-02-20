@@ -34,7 +34,6 @@ void exit(int status);
 
 // System calls
 
-
 // stdio
 void clearerr(FILE *stream);
 int fclose(FILE *stream);
