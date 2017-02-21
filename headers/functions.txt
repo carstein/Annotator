@@ -32,8 +32,6 @@ void *memmove(void *str1, const void *str2, size_t n);
 void *memset(void *str, int c, size_t n);
 void exit(int status);
 
-// System calls
-
 // stdio
 void clearerr(FILE *stream);
 int fclose(FILE *stream);
