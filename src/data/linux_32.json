@@ -1,8 +1,8 @@
 {
-  "posix_fadvise": [
-    "int fd", 
-    "off_t offset", 
-    "off_t len \\"
+  "sysfs": [
+    "int option", 
+    "unsigned int fs_index", 
+    "char *buf"
   ], 
   "vmsplice": [
     "int fd", 
@@ -40,8 +40,10 @@
   "umask": [
     "mode_t mask"
   ], 
-  "ftell": [
-    "FILE *stream"
+  "sched_getaffinity": [
+    "pid_t pid", 
+    "size_t cpusetsize", 
+    "cpu_set_t *mask"
   ], 
   "send": [
     "int sockfd", 
@@ -66,6 +68,9 @@
   ], 
   "seteuid": [
     "uid_t euid"
+  ], 
+  "ftell": [
+    "FILE *stream"
   ], 
   "capget": [
     "cap_user_header_t hdrp", 
@@ -152,8 +157,11 @@
     "void *addr", 
     "size_t length"
   ], 
-  "ferror": [
-    "FILE *stream"
+  "socketpair": [
+    "int domain", 
+    "int type", 
+    "int protocol", 
+    "int sv[2]"
   ], 
   "settimeofday": [
     "const struct timeval *tv", 
@@ -178,8 +186,13 @@
     "gid_t rgid", 
     "gid_t egid"
   ], 
-  "fchdir": [
-    "int fd"
+  "splice": [
+    "int fd_in", 
+    "loff_t *off_in", 
+    "int fd_out", 
+    "loff_t *off_out", 
+    "size_t len", 
+    "unsigned int flags"
   ], 
   "msgsnd": [
     "int msqid", 
@@ -243,11 +256,6 @@
     "unsigned *node", 
     "struct getcpu_cache *tcache"
   ], 
-  "sched_getaffinity": [
-    "pid_t pid", 
-    "size_t cpusetsize", 
-    "cpu_set_t *mask"
-  ], 
   "brk": [
     "void *addr"
   ], 
@@ -258,12 +266,6 @@
   "printf": [
     "const char *format", 
     "..."
-  ], 
-  "fallocate": [
-    "int fd", 
-    "int mode", 
-    "off_t offset", 
-    "off_t len"
   ], 
   "clock_settime": [
     "clockid_t clk_id", 
@@ -294,8 +296,11 @@
     "const char *s", 
     "int c"
   ], 
-  "sigreturn": [
-    "unsigned long __unused"
+  "recv": [
+    "int sockfd", 
+    "void *buf", 
+    "size_t len", 
+    "int flags"
   ], 
   "strdup": [
     "const char *s"
@@ -462,7 +467,7 @@
   ], 
   "setpgrp": [
     "pid_t pid", 
-    "pid_t pgid);\\"
+    "pid_t pgid"
   ], 
   "mlockall": [
     "int flags"
@@ -567,8 +572,10 @@
     "int cmd", 
     "..."
   ], 
-  "umount": [
-    "const char *target"
+  "connect": [
+    "int sockfd", 
+    "const struct sockaddr *addr", 
+    "socklen_t addrlen"
   ], 
   "flock": [
     "int fd", 
@@ -593,10 +600,11 @@
   "uselib": [
     "const char *library"
   ], 
-  "sysfs": [
-    "int option", 
-    "unsigned int fs_index", 
-    "char *buf"
+  "posix_fadvise": [
+    "int fd", 
+    "off_t offset", 
+    "off_t len", 
+    "int advice"
   ], 
   "reboot": [
     "int magic", 
@@ -632,11 +640,8 @@
     "struct sockaddr *addr", 
     "socklen_t *addrlen"
   ], 
-  "recv": [
-    "int sockfd", 
-    "void *buf", 
-    "size_t len", 
-    "int flags"
+  "sigreturn": [
+    "unsigned long __unused"
   ], 
   "create_module": [
     "const char *name", 
@@ -793,13 +798,13 @@
     "const struct timespec *timeout", 
     "const sigset_t *sigmask"
   ], 
-  "close": [
-    "int fd"
+  "stpcpy": [
+    "char *dest", 
+    "const char *src"
   ], 
-  "get_robust_list": [
-    "int pid", 
-    "struct robust_list_head ** head_ptr", 
-    "size_t *len_ptr"
+  "vprintf": [
+    "const char *format", 
+    "va_list arg"
   ], 
   "fseek": [
     "FILE *stream", 
@@ -873,6 +878,10 @@
     "const char *s1", 
     "const char *s2", 
     "size_t n"
+  ], 
+  "fgetpos": [
+    "FILE *stream", 
+    "fpos_t *pos"
   ], 
   "iopl": [
     "int level"
@@ -977,14 +986,8 @@
     "void *buf", 
     "size_t buf_size"
   ], 
-  "remove": [
-    "const char *filename"
-  ], 
-  "socketpair": [
-    "int domain", 
-    "int type", 
-    "int protocol", 
-    "int sv[2]"
+  "umount": [
+    "const char *target"
   ], 
   "mkdirat": [
     "int dirfd", 
@@ -1021,17 +1024,16 @@
     "struct sockaddr *addr", 
     "socklen_t *addrlen"
   ], 
-  "stpcpy": [
-    "char *dest", 
-    "const char *src"
+  "close": [
+    "int fd"
   ], 
   "strchr": [
     "const char *s", 
     "int c"
   ], 
-  "fgetpos": [
-    "FILE *stream", 
-    "fpos_t *pos"
+  "lstat": [
+    "const char *path", 
+    "struct stat *buf"
   ], 
   "timerfd_create": [
     "int clockid", 
@@ -1090,13 +1092,8 @@
     "const char *pathname", 
     "struct stat *int flags"
   ], 
-  "splice": [
-    "int fd_in", 
-    "loff_t *off_in", 
-    "int fd_out", 
-    "loff_t *off_out", 
-    "size_t len", 
-    "unsigned int flags"
+  "fchdir": [
+    "int fd"
   ], 
   "strxfrm": [
     "char *dest", 
@@ -1529,16 +1526,15 @@
   "_exit": [
     "int status"
   ], 
-  "lstat": [
-    "const char *path", 
-    "struct stat *buf"
-  ], 
   "linkat": [
     "int olddirfd", 
     "const char *oldpath", 
     "int newdirfd", 
     "const char *newpath", 
     "int flags"
+  ], 
+  "ferror": [
+    "FILE *stream"
   ], 
   "umount2": [
     "const char *target", 
@@ -1554,7 +1550,8 @@
   "quotactl": [
     "int cmd", 
     "const char *special", 
-    "int id \\"
+    "int id", 
+    "caddr_t addr"
   ], 
   "mq_getsetattr": [
     "mqd_t mqdes", 
@@ -1571,9 +1568,10 @@
     "unsigned long addr", 
     "unsigned long flags"
   ], 
-  "vprintf": [
-    "const char *format", 
-    "va_list arg"
+  "get_robust_list": [
+    "int pid", 
+    "struct robust_list_head ** head_ptr", 
+    "size_t *len_ptr"
   ], 
   "link": [
     "const char *oldpath", 
@@ -1587,6 +1585,12 @@
   ], 
   "fdatasync": [
     "int fd"
+  ], 
+  "fallocate": [
+    "int fd", 
+    "int mode", 
+    "off_t offset", 
+    "off_t len"
   ], 
   "wait4": [
     "pid_t pid", 
@@ -1627,11 +1631,6 @@
     "void *arg", 
     "int narg"
   ], 
-  "connect": [
-    "int sockfd", 
-    "const struct sockaddr *addr", 
-    "socklen_t addrlen"
-  ], 
   "sscanf": [
     "const char *str", 
     "const char *format", 
@@ -1651,6 +1650,9 @@
   ], 
   "inw": [
     "unsigned short int port"
+  ], 
+  "remove": [
+    "const char *filename"
   ], 
   "inl": [
     "unsigned short int port"
