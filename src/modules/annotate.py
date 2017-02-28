@@ -9,7 +9,7 @@ from binaryninja import *
 from stacks import linux_x86
 
 stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH']
-data_path = '/annotate/data/functions.json'
+data_path = '/annotate/data/all_functions.json'
 
 # Simple database loader - assume all is in one file for now
 def load_database():
@@ -31,19 +31,18 @@ def run_plugin(bv, function):
   log_info('[*] Annotating function <{name}>'.format(name=function.symbol.name))
 
   for block in function.low_level_il:
-    for i in block:
-      if i.operation.name in stack_changing_llil:
-        stack.update(i)
-      if i.operation.name == 'LLIL_CALL':
-        callee = bv.get_function_at(i.dest.value) # Fetching function in question
+    for instruction in block:
+      if instruction.operation.name in stack_changing_llil:
+        stack.update(instruction)
+      if instruction.operation.name == 'LLIL_CALL':
+        callee = bv.get_function_at(instruction.dest.value) # Fetching function in question
 
-        if (callee.symbol.type.name == 'ImportedFunctionSymbol' and
-            db.has_key(callee.name)):
-          s_args = iter(stack)
+        if (callee.symbol.type.name == 'ImportedFunctionSymbol' and db.has_key(callee.name)):
+          stack_args = iter(stack)
 
-          for f_arg in db[callee.name]:
+          for function_args in db[callee.name]:
             try:
-              stack_i = s_args.next()
-              function.set_comment(stack_i.address, f_arg)
+              stack_instruction = stack_args.next()
+              function.set_comment(stack_instruction.address, function_args)
             except StopIteration:
               log_error('[x] Virtual Stack Empty. Unable to find function arguments for <{}>'.format(callee.name))
