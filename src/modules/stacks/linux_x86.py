@@ -26,13 +26,23 @@ class Stack:
     if instr.operation.name == 'LLIL_STORE':
       self.__process_store(instr)
 
-  def __shift_stack(self):
+    if instr.operation.name == 'LLIL_POP':
+      self.__process_pop()
+
+  def __shift_stack_right(self):
     for index in sorted(self.stack, reverse=True):
       self.stack[index+WORD_SIZE] = self.stack[index]
 
+  def __shift_stack_left(self):
+    for index in sorted(self.stack)[1:]:
+      self.stack[index-WORD_SIZE] = self.stack[index]
+
   def __process_push(self, push_i):
-    self.__shift_stack()
+    self.__shift_stack_right()
     self.stack[0] = push_i
+
+  def __process_pop(self):
+    self.__shift_stack_left()
 
   def __process_store(self, store_i):
     # Extracting destination of LLIL_STORE
