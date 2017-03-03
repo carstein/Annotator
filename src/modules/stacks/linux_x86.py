@@ -15,6 +15,14 @@ WORD_SIZE = 4
 class Stack:
   def __init__(self):
     self.stack = {}
+    self.stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH', 'LLIL_POP']
+    self.functions_path = 'all_functions.json'
+
+  def get_function_path(self):
+    return self.functions_path
+
+  def get_relevant_llil(self):
+    return self.stack_changing_llil
 
   def clear(self):
     self.stack = {}

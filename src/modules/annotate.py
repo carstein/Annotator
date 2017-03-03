@@ -8,19 +8,14 @@ from binaryninja import *
 
 from stacks import linux_x86
 
-stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH']
-data_path = '/annotate/data/all_functions.json'
 
 # Simple database loader - assume all is in one file for now
-def load_database():
-  fh = open(sys.path[0]+data_path, 'r')
+def load_database(data_path):
+  fh = open(sys.path[0]+'/annotate/data/'+data_path, 'r')
   return json.load(fh)
 
 # Function to be executed when we invoke plugin
 def run_plugin(bv, function):
-  # load database
-  db = load_database()
-
   # logic of stack selection
   if bv.platform.name == 'linux-x86':
     stack = linux_x86.Stack()
@@ -29,6 +24,11 @@ def run_plugin(bv, function):
     return -1
 
   log_info('[*] Annotating function <{name}>'.format(name=function.symbol.name))
+
+  functions_db = stack.get_function_path()
+  stack_changing_llil =  stack.get_relevant_llil()
+
+  db = load_database(functions_db)
 
   for block in function.low_level_il:
     for instruction in block:
