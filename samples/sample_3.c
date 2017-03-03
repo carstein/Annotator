@@ -4,6 +4,9 @@ int main(int argc, char*argv[])
 {
   char str[]={"BBBABBB"};
   int c = 0x41;
+  char *p;
 
-  return (int)strchr(str, c);
+  p = strchr(str, c);
+
+  return 0;
 }
