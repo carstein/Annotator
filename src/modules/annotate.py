@@ -6,12 +6,12 @@ import sys
 import json
 from binaryninja import *
 
-from stacks import linux_x86
+from stacks import linux_x86, linux_x64
 
 
 # Simple database loader - assume all is in one file for now
 def load_database(data_path):
-  fh = open(sys.path[0]+'/annotate/data/'+data_path, 'r')
+  fh = open(sys.path[0]+'/annotate/data/' + data_path, 'r')
   return json.load(fh)
 
 # Function to be executed when we invoke plugin
@@ -19,6 +19,8 @@ def run_plugin(bv, function):
   # logic of stack selection
   if bv.platform.name == 'linux-x86':
     stack = linux_x86.Stack()
+  elif bv.platform.name == 'linux-x86_64':
+    stack = linux_x64.Stack()
   else:
     log_error('[x] Virtual stack not found for {platform}'.format(platform=bv.platform.name))
     return -1
