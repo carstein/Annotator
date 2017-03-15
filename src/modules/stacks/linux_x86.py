@@ -16,7 +16,7 @@ class Stack:
   def __init__(self):
     self.stack = {}
     self.stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH', 'LLIL_POP']
-    self.functions_path = 'all_functions.json'
+    self.functions_path = 'all_functions_no_fp.json'
 
   def get_function_path(self):
     return self.functions_path
