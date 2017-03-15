@@ -15,7 +15,7 @@
 			"installers": [],
 			"other": []
 		},
-		"version": "0.1",
+		"version": "0.2",
 		"author": "Michal Melewski <michal.melewski@gmail.com>",
 		"minimumBinaryNinjaVersion": {
 			"dev": "1.0.dev-175",
