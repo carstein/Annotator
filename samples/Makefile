@@ -1,9 +1,12 @@
 CC = gcc
-CFLAGS_32 = -m32
-CFLAGS_64 = -m64
+CFLAGS_32 = -m32 -lm
+CFLAGS_64 = -m64 -lm
 
 all: $(patsubst %.c, %, $(wildcard *.c))
 
+clear:
+	rm bin/*
+
 %: %.c Makefile
-	$(CC) $(CFLAGS_32) $< -o bin/$@_32
-	$(CC) $(CFLAGS_64) $< -o bin/$@_64
+	$(CC) $< -o bin/$@_32 $(CFLAGS_32)
+	$(CC) $< -o bin/$@_64 $(CFLAGS_64)
