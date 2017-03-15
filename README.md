@@ -1,4 +1,4 @@
-BinaryNinja Annotator (version 0.1)
+BinaryNinja Annotator (version 0.2)
 ====================
 This is a plugin for Binary Ninja Reversing Platform.
 Upon encountering a libc function call this plugins uses virtual stack to
