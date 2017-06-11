@@ -11,7 +11,7 @@ from stacks import linux_x86, linux_x64
 
 # Simple database loader - assume all is in one file for now
 def load_database(data_path):
-  fh = open(sys.path[0]+'/annotate/data/' + data_path, 'r')
+  fh = open(os.path.dirname(__file__)+'/../data/' + data_path, 'r')
   return json.load(fh)
 
 # Function to be executed when we invoke plugin
