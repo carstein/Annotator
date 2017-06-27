@@ -10,12 +10,16 @@
 #  8: <il: store>
 # }
 
+from binaryninja import LowLevelILOperation
+
 WORD_SIZE = 4
 
 class Stack:
   def __init__(self):
     self.stack = {}
-    self.stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH', 'LLIL_POP']
+    self.stack_changing_llil = [LowLevelILOperation.LLIL_STORE,
+                                LowLevelILOperation.LLIL_PUSH,
+                                LowLevelILOperation.LLIL_POP]
     self.functions_path = 'all_functions_no_fp.json'
 
   def get_function_path(self):
@@ -28,13 +32,13 @@ class Stack:
     self.stack = {}
 
   def update(self, instr):
-    if instr.operation.name == 'LLIL_PUSH':
+    if instr.operation == LowLevelILOperation.LLIL_PUSH:
       self.__process_push(instr)
 
-    if instr.operation.name == 'LLIL_STORE':
+    if instr.operation == LowLevelILOperation.LLIL_STORE:
       self.__process_store(instr)
 
-    if instr.operation.name == 'LLIL_POP':
+    if instr.operation == LowLevelILOperation.LLIL_POP:
       self.__process_pop()
 
   def __shift_stack_right(self):
@@ -54,14 +58,14 @@ class Stack:
 
   def __process_store(self, store_i):
     # Extracting destination of LLIL_STORE
-    if store_i.dest.operation.name == 'LLIL_REG':
+    if store_i.dest.operation == LowLevelILOperation.LLIL_REG:
       dst = store_i.dest.src
       shift = 0
     else: # assuming LLIL_ADD for now
       dst = store_i.dest.left.src
       shift = store_i.dest.right.value
 
-    if dst == 'esp':
+    if dst.name == 'esp':
       # Place it on the stack
       self.stack[shift] = store_i
 

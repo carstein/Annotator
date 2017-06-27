@@ -6,11 +6,11 @@
 # ex:
 # {
 #  0: <il: push>
-#  4: <il: store>
 #  8: <il: store>
+#  16: <il: store>
 # }
 import linux_x86
-from binaryninja import log_info
+from binaryninja import LowLevelILOperation
 
 WORD_SIZE = 8
 
@@ -36,7 +36,11 @@ class Stack(linux_x86.Stack):
       'r9':  None
     }
 
-    self.stack_changing_llil = ['LLIL_STORE', 'LLIL_PUSH', 'LLIL_POP', 'LLIL_SET_REG']
+    self.stack_changing_llil = [
+        LowLevelILOperation.LLIL_STORE,
+        LowLevelILOperation.LLIL_PUSH,
+        LowLevelILOperation.LLIL_POP,
+        LowLevelILOperation.LLIL_SET_REG]
     self.functions_path = 'all_functions_no_fp.json'
 
   def clear(self):
@@ -46,32 +50,32 @@ class Stack(linux_x86.Stack):
       self.registers[reg] = None
 
   def update(self, instr):
-    if instr.operation.name == 'LLIL_PUSH':
+    if instr.operation == LowLevelILOperation.LLIL_PUSH:
       self.__process_push(instr)
 
-    if instr.operation.name == 'LLIL_STORE':
+    if instr.operation == LowLevelILOperation.LLIL_STORE:
       self.__process_store(instr)
 
-    if instr.operation.name == 'LLIL_POP':
+    if instr.operation == LowLevelILOperation.LLIL_POP:
       self.__process_pop()
 
-    if instr.operation.name == 'LLIL_SET_REG':
+    if instr.operation == LowLevelILOperation.LLIL_SET_REG:
       self.__process_set_reg(instr)
 
   def __process_set_reg(self, set_i):
-    if set_i.dest in mapping.keys():
-      self.registers[mapping[set_i.dest]] = set_i
+    if set_i.dest.name in mapping.keys():
+      self.registers[mapping[set_i.dest.name]] = set_i
 
   def __process_store(self, store_i):
     # Extracting destination of LLIL_STORE
-    if store_i.dest.operation.name == 'LLIL_REG':
+    if store_i.dest.operation == LowLevelILOperation.LLIL_REG:
       dst = store_i.dest.src
       shift = 0
     else: # assuming LLIL_ADD for now
       dst = store_i.dest.left.src
       shift = store_i.dest.right.value
 
-    if dst == 'esp':
+    if dst.name == 'esp':
       # Place it on the stack
       self.stack[shift] = store_i
 
