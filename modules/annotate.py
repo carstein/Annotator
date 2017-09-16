@@ -4,7 +4,7 @@
 import sys
 import json
 from binaryninja import *
-
+import os
 from stacks import linux_x86, linux_x64
 
 
