@@ -10,8 +10,10 @@ from stacks import linux_x86, linux_x64
 
 # Simple database loader - assume all is in one file for now
 def load_database(data_path):
-  fh = open(user_plugin_path + '/annotate/data/' + data_path, 'r')
-  return json.load(fh)
+    annotator_folder = os.path.dirname(os.path.abspath(__file__)).split(user_plugin_path)[1].split("/")[1]
+    fh = open(user_plugin_path + '/' + annotator_folder
+              + '/data/' + data_path, 'r')
+    return json.load(fh)
 
 # Function to be executed when we invoke plugin
 def run_plugin(bv, function):
