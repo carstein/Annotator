@@ -30,13 +30,11 @@ def run_plugin(bv, function):
 
   functions_db = stack.get_function_path()
   stack_changing_llil =  stack.get_relevant_llil()
-  log_info(stack_changing_llil)
 
   db = load_database(functions_db)
 
   for block in function.low_level_il:
     for instruction in block:
-      log_info(instruction.operation)
       if instruction.operation in stack_changing_llil:
         stack.update(instruction)
       if (instruction.operation == LowLevelILOperation.LLIL_CALL and
@@ -46,9 +44,9 @@ def run_plugin(bv, function):
         if (callee.symbol.type.name == 'ImportedFunctionSymbol' and db.has_key(callee.name)):
           stack_args = iter(stack)
 
-          for function_args in db[callee.name]:
+          for function_arg in db[callee.name]:
             try:
               stack_instruction = stack_args.next()
-              function.set_comment(stack_instruction.address, function_args)
+              function.set_comment(stack_instruction.address, function_arg)
             except StopIteration:
               log_error('[x] Virtual Stack Empty. Unable to find function arguments for <{}>'.format(callee.name))

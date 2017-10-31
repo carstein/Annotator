@@ -10,7 +10,7 @@
 #  8: <il: store>
 # }
 
-from binaryninja import LowLevelILOperation
+from binaryninja import LowLevelILOperation, log_info
 
 WORD_SIZE = 4
 
@@ -41,6 +41,8 @@ class Stack:
     if instr.operation == LowLevelILOperation.LLIL_POP:
       self.__process_pop()
 
+    self.__display_stack()
+    
   def __shift_stack_right(self):
     for index in sorted(self.stack, reverse=True):
       self.stack[index+WORD_SIZE] = self.stack[index]
@@ -63,7 +65,10 @@ class Stack:
       shift = 0
     else: # assuming LLIL_ADD for now
       dst = store_i.dest.left.src
-      shift = store_i.dest.right.value
+      if store_i.dest.right.operation == LowLevelILOperation.LLIL_CONST:
+        shift = store_i.dest.right.constant
+      else:
+        shift = store_i.dest.right.value
 
     if dst.name == 'esp':
       # Place it on the stack
@@ -72,3 +77,10 @@ class Stack:
   def __iter__(self):
     for index in sorted(self.stack):
       yield self.stack[index]
+
+  def __display_stack(self):
+    s = '\n'
+    for offset, i in self.stack.iteritems():
+      s += '{}: {}\n'.format(offset, i)
+
+    log_info(s)
