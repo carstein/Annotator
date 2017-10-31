@@ -42,7 +42,7 @@ class Stack:
       self.__process_pop()
 
     self.__display_stack()
-    
+
   def __shift_stack_right(self):
     for index in sorted(self.stack, reverse=True):
       self.stack[index+WORD_SIZE] = self.stack[index]
@@ -80,7 +80,7 @@ class Stack:
 
   def __display_stack(self):
     s = '\n'
-    for offset, i in self.stack.iteritems():
-      s += '{}: {}\n'.format(offset, i)
+    for index in sorted(self.stack):
+      s += '{}: {}\n'.format(index, self.stack[index])
 
     log_info(s)
