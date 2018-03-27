@@ -1,10 +1,10 @@
 # Author: carstein <michal.melewski@gmail.com>
-# Annotate function with prototype
+# Annotate function arguments
 
-import sys
-import json
-from binaryninja import *
 import os
+import json
+
+from binaryninja import *
 from stacks import linux_x86, linux_x64
 
 
