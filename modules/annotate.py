@@ -7,12 +7,15 @@ import json
 from binaryninja import *
 from stacks import linux_x86, linux_x64
 
+PLUGINDIR_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+call_llil = [
+  LowLevelILOperation.LLIL_CALL,
+  LowLevelILOperation.LLIL_CALL_STACK_ADJUST,
+]
 # Simple database loader - assume all is in one file for now
 def load_database(data_path):
-    annotator_folder = os.path.dirname(os.path.abspath(__file__)).split(user_plugin_path)[1].split("/")[1]
-    fh = open(user_plugin_path + '/' + annotator_folder
-              + '/data/' + data_path, 'r')
+    fh = open(PLUGINDIR_PATH + '/data/' + data_path, 'r')
     return json.load(fh)
 
 # Function to be executed when we invoke plugin
@@ -37,9 +40,11 @@ def run_plugin(bv, function):
     for instruction in block:
       if instruction.operation in stack_changing_llil:
         stack.update(instruction)
-      if (instruction.operation == LowLevelILOperation.LLIL_CALL and
+
+      if (instruction.operation in call_llil and
           instruction.dest.operation == LowLevelILOperation.LLIL_CONST_PTR):
         callee = bv.get_function_at(instruction.dest.constant) # Fetching function in question
+        print callee
 
         if (callee.symbol.type.name == 'ImportedFunctionSymbol' and db.has_key(callee.name)):
           stack_args = iter(stack)

@@ -41,7 +41,7 @@ class Stack:
     if instr.operation == LowLevelILOperation.LLIL_POP:
       self.__process_pop()
 
-    self.__display_stack()
+    #self.__display_stack()
 
   def __shift_stack_right(self):
     for index in sorted(self.stack, reverse=True):
