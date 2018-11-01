@@ -20,6 +20,10 @@ def load_database(data_path):
     return json.load(fh)
 
 # Function to be executed when we invoke plugin
+def run_plugin_all(bv):
+    for function in bv.functions:
+        run_plugin(bv, function)
+
 def run_plugin(bv, function):
   # logic of stack selection
   if bv.platform.name == 'linux-x86':
@@ -40,7 +44,10 @@ def run_plugin(bv, function):
   for block in function.low_level_il:
     for instruction in block:
       if instruction.operation in stack_changing_llil:
-        stack.update(instruction)
+        try:
+            stack.update(instruction)
+        except AttributeError:
+            log_error("[x] Attribute Error while analyzing %s." % (function.name))
 
       if (instruction.operation in call_llil and
           instruction.dest.operation == LowLevelILOperation.LLIL_CONST_PTR):
