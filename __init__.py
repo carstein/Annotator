@@ -11,3 +11,8 @@ PluginCommand.register_for_function(
   "[Annotator] Annotate Functions",
   "Annotate standard libc functions with arguments",
   annotate.run_plugin)
+
+PluginCommand.register(
+  "[Annotator All] Annotate Functions",
+  "Annotate standard libc functions with arguments",
+  annotate.run_plugin_all)
