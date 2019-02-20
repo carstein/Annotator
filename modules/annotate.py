@@ -56,9 +56,11 @@ def run_plugin(bv, function):
         callee_name = callee.name
         imported = callee.symbol.type == SymbolType.ImportedFunctionSymbol
         db_has_key = db.has_key(callee_name)
-        if not db_has_key and callee_name.endswith("_chk") and callee_name.startswith("__") and len(callee_name) > 6:
-            db_has_key = db.has_key(callee_name[2:-4])
-            callee_name = callee_name[2:-4]
+
+        # if name isn't found, try the un- FORTIFY -ed name, if possible
+        if not db_has_key and "_chk" in callee_name and callee_name.startswith("__") and len(callee_name) > 6:
+            callee_name = callee_name[2:callee_name.find("_chk")]
+            db_has_key = db.has_key(callee_name)
 
         if (imported and db_has_key):
           stack_args = iter(stack)
