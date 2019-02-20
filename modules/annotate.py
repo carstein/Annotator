@@ -53,13 +53,22 @@ def run_plugin(bv, function):
           instruction.dest.operation == LowLevelILOperation.LLIL_CONST_PTR):
         callee = bv.get_function_at(instruction.dest.constant) # Fetching function in question
 
-        if (callee.symbol.type == SymbolType.ImportedFunctionSymbol and db.has_key(callee.name)):
+        callee_name = callee.name
+        imported = callee.symbol.type == SymbolType.ImportedFunctionSymbol
+        db_has_key = db.has_key(callee_name)
+
+        # if name isn't found, try the un- FORTIFY -ed name, if possible
+        if not db_has_key and "_chk" in callee_name and callee_name.startswith("__") and len(callee_name) > 6:
+            callee_name = callee_name[2:callee_name.find("_chk")]
+            db_has_key = db.has_key(callee_name)
+
+        if (imported and db_has_key):
           stack_args = iter(stack)
 
-          for idx, function_arg in enumerate(db[callee.name]):
+          for idx, function_arg in enumerate(db[callee_name]):
             try:
               stack_instruction = stack_args.next()
-              comment = "<arg{}: {}>\n".format(idx+1, function_arg)
+              comment = "arg{}: {}\n".format(idx+1, function_arg)
               function.set_comment(stack_instruction.address, comment)
             except StopIteration:
               log_error('[x] Virtual Stack Empty. Unable to find function arguments for <{}>'.format(callee.name))
