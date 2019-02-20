@@ -69,4 +69,4 @@ def run_plugin(bv, function):
               comment = "arg{}: {}\n".format(idx+1, function_arg)
               function.set_comment(stack_instruction.address, comment)
             except StopIteration:
-              log_error('[x] Virtual Stack Empty. Unable to find function arguments for <{}>'.format(callee_name))
+              log_error('[x] Virtual Stack Empty. Unable to find function arguments for <{}>'.format(callee.name))
